@@ -953,8 +953,8 @@ const sortArrOfObjByKey = (arr = [], key = "", ascending = true) => {
 
 const getFiatBalance = ({ balance = 0, exchangeRate = 0 } = {}) => {
 	try {
-		bitcoinUnits.setFiat("usd", exchangeRate);
-		const fiatBalance = bitcoinUnits(balance, "satoshi").to("usd").value().toFixed(2);
+		bitcoinUnits.setFiat("isk", exchangeRate);
+		const fiatBalance = bitcoinUnits(balance, "satoshi").to("isk").value().toFixed(2);
 		if (isNaN(fiatBalance)) return 0;
 		return Number(fiatBalance);
 	} catch (e) {
@@ -965,8 +965,8 @@ const getFiatBalance = ({ balance = 0, exchangeRate = 0 } = {}) => {
 const cryptoToFiat = ({ amount = 0, exchangeRate = 0 } = {}) => {
 	try {
 		amount = Number(amount);
-		bitcoinUnits.setFiat("usd", exchangeRate);
-		return bitcoinUnits(amount, "satoshi").to("usd").value().toFixed(2);
+		bitcoinUnits.setFiat("isk", exchangeRate);
+		return bitcoinUnits(amount, "satoshi").to("isk").value().toFixed(2);
 	} catch(e) {
 		console.log(e);
 	}
@@ -982,8 +982,8 @@ const satsToBtc = ({amount = 0 } = {}) => {
 const fiatToCrypto = ({ amount = 0, exchangeRate = 0 } = {}) => {
 	try {
 		amount = Number(amount);
-		bitcoinUnits.setFiat("usd", exchangeRate);
-		return bitcoinUnits(amount, "usd").to("satoshi").value().toFixed(0);
+		bitcoinUnits.setFiat("isk", exchangeRate);
+		return bitcoinUnits(amount, "isk").to("satoshi").value().toFixed(0);
 	} catch (e) {
 		console.log(e);
 	}
