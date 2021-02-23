@@ -406,6 +406,12 @@ const fallbackBroadcastTransaction = async ({ rawTx = "", selectedCrypto = "bitc
 		};
 		let response = "";
 		switch (selectedCrypto) {
+			case "auroracoin":
+				response = await fetch(`http://insight.auroracoin.is/api/tx/send`, fetchData("POST", { tx_hex: rawTx }));
+				response = await response.json();
+				response = response.status === "success" ? response.data.txid : "";
+			break;	
+				
 			case "bitcoin":
 				response = await fetch(`https://blockstream.info/api/tx`, config);
 				response = await response.text();
