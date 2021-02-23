@@ -25,7 +25,7 @@ TODO:
 Recommended fees are always grossly overestimated.
 Until this is resolved, getRecommendedFee divides that estimation by 4.
  */
-export const getRecommendedFee = ({ coin = "bitcoin", transactionSize = 256 } = {}) => (dispatch) => {
+export const getRecommendedFee = ({ coin = "auroracoin", transactionSize = 256 } = {}) => (dispatch) => {
 	const DIVIDE_RECOMMENDED_FEE_BY = 10;
 	const MAX_FEE_MULTIPLIER = 4;
 	return new Promise(async (resolve) => {
@@ -35,11 +35,12 @@ export const getRecommendedFee = ({ coin = "bitcoin", transactionSize = 256 } = 
 		};
 
 		let recommendedFee = 4;
-		let maximumFee = 128;
+		// let maximumFee = 128;
+		const COIN=100000000
 		try {
 			const feeResponse = await walletHelpers.feeEstimate.default({ selectedCrypto: coin });
 			if (!feeResponse.data.error && feeResponse.data > 0) {
-				let feeInSats = bitcoinUnits(feeResponse.data, "BTC").to("satoshi").value();
+	/*			let feeInSats = bitcoinUnits(feeResponse.data, "BTC").to("satoshi").value();
 				feeInSats = Math.round(feeInSats / transactionSize);
 				try {recommendedFee = Math.round(feeInSats / DIVIDE_RECOMMENDED_FEE_BY);} catch (e) {}
 				if (recommendedFee < 1) recommendedFee = 4;
@@ -48,12 +49,31 @@ export const getRecommendedFee = ({ coin = "bitcoin", transactionSize = 256 } = 
 				const suggestedMaximumFee = recommendedFee * MAX_FEE_MULTIPLIER;
 				if (suggestedMaximumFee > maximumFee) maximumFee = suggestedMaximumFee;
 			} catch (e) {}
+	*/		
+
+				let feeInSats = feeResponse.data * COIN;
+				recommendedFee = Math.round(feeInSats / transactionSize);
+
+				// This might apply more for BTC and LTC,. but for CDN, it mucks things up -- CDN requires a minimum fee, which is the one returned by the electrum server...
+				// try {recommendedFee = Math.round(feeInSats / DIVIDE_RECOMMENDED_FEE_BY);} catch (e) {}
+				// if (recommendedFee < 1) recommendedFee = 4;
+			} else failure();
+			// try {
+			// 	const suggestedMaximumFee = recommendedFee * MAX_FEE_MULTIPLIER;
+			// 	if (suggestedMaximumFee > maximumFee) maximumFee = suggestedMaximumFee;
+			// } catch (e) {}
+			
+	
 		} catch (e) {
+
 			console.log(e);
 			failure();
 		}
-		if (recommendedFee < 1) recommendedFee = 1;
+		
+		// if (recommendedFee < 1) recommendedFee = 1;
+		
 		const feeTimestamp = moment().format();
+		const maximumFee = recommendedFee * MAX_FEE_MULTIPLIER;
 		const data = {
 			recommendedFee,
 			maximumFee,
