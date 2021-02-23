@@ -1,5 +1,27 @@
 // https://en.bitcoin.it/wiki/List_of_address_prefixes
 const networks = {
+	auroracoin: {
+		messagePrefix: '\x19Auroracoin Signed Message:\n',
+		bech32: 'aur',
+		bip32: {
+			public: 0x0488b21e,
+			private: 0x0488ade4
+		},
+		pubKeyHash: 0x17,
+		scriptHash: 0x05,
+		wif: 0xB0
+	},
+		canadaecoin: {
+		messagePrefix: '\x19Canada eCoin Signed Message:\n',
+		bech32: 'cdn',
+		bip32: {
+			public: 0x0488b21e,
+			private: 0x0488ade4
+		},
+		pubKeyHash: 0x1c,
+		scriptHash: 0x05,
+		wif: 0x9C
+	},
 	bitcoin: {
 		messagePrefix: '\x18Bitcoin Signed Message:\n',
 		bech32: 'bc',
@@ -48,6 +70,8 @@ const networks = {
 
 //Max amount of BTC/LTC.
 const maxCoins = {
+	auroracoin: 2100000000000000,
+	canadaecoin: 11250000000000000,
 	bitcoin: 2100000000000000,
 	bitcoinTestnet: 2100000000000000,
 	litecoin: 8400000000000000,
@@ -61,10 +85,14 @@ const supportsRbf = {
 	bitcoin: true,
 	bitcoinTestnet: true,
 	litecoin: false,
-	litecoinTestnet: false
+	litecoinTestnet: false, 
+	auroracoin: false,
+	canadaecoin: false
 };
 
-const zeroValueItems = {
+const zeroValueItems = 
+	auroracoin: 0,
+	canadaecoin: 0,
 	bitcoin: 0,
 	bitcoinTestnet: 0,
 	litecoin: 0,
@@ -73,6 +101,8 @@ const zeroValueItems = {
 };
 
 const arrayTypeItems = {
+	auroracoin: [],
+	canadaecoin: [],
 	bitcoin: [],
 	bitcoinTestnet: [],
 	litecoin: [],
@@ -105,18 +135,24 @@ const defaultWalletShape = {
 	hasBackedUpWallet: false,
 	walletBackupTimestamp: "",
 	keyDerivationPath: {
+		auroracoin: "84",
+		canadaecoin: "84",
 		bitcoin: "84",
 		bitcoinTestnet: "84",
 		litecoin: "84",
 		litecoinTestnet: "84"
 	},
 	coinTypePath: {
+		auroracoin: "85",
+		canadaecoin: "34"
 		bitcoin: "0",
 		bitcoinTestnet: "1",
 		litecoin: "2",
 		litecoinTestnet: "1"
 	},
 	addressType: { //Accepts bech32, segwit, legacy
+		auroracoin: "bech32",
+		canadaecoin: "bech32",
 		bitcoin: "bech32",
 		bitcoinTestnet: "bech32",
 		litecoin: "bech32",
@@ -131,28 +167,34 @@ const getCoinImage = (coin = "bitcoin") => {
 		coin = coin.replace("testnet", "");
 
 		switch (coin) {
+			case "auroracoin":
+				return require(`../assets/auroracoinW.png`);	
+			case "canadaecoin":
+				return require(`../assets/canadaecoin.png`);	
 			case "bitcoin":
 				return require(`../assets/bitcoin.png`);
 			case "litecoin":
 				return require(`../assets/litecoin.png`);
 			default:
-				return require(`../assets/bitcoin.png`);
+				return require(`../assets/auroracoinW.png`);
 		}
 	} catch (e) {
-		return require(`../assets/bitcoin.png`);
+		return require(`../assets/auroracoin.png`);
 	}
 };
 
-const getCoinData = ({ selectedCrypto = "bitcoin", cryptoUnit = "satoshi" }) => {
+const getCoinData = ({ selectedCrypto = "auroracoin", cryptoUnit = "AUR" }) => {
 	try {
-		let acronym = "BTC";
+		let acronym = "AUR";
 		let satoshi = "satoshi";
-		let oshi = "sats";
-		let blockTime = 10; //min
+		let oshi = "bits";
+		let blockTime = 1; //min
 		switch (selectedCrypto) {
 			case "bitcoin":
+				satoshi = "satoshi";
 				acronym = cryptoUnit === "satoshi" ? "sats" : "BTC";
 				oshi = "sats";
+				blockTime = 10;
 				return { acronym, label: "Bitcoin", crypto: "BTC", satoshi, oshi, blockTime };
 			case "bitcoinTestnet":
 				acronym = cryptoUnit === "satoshi" ? "sats" : "BTC";
@@ -170,9 +212,28 @@ const getCoinData = ({ selectedCrypto = "bitcoin", cryptoUnit = "satoshi" }) => 
 				acronym = cryptoUnit === "satoshi" ? "lits" : "LTC";
 				blockTime = 2.5;
 				return { acronym, label: "Litecoin Testnet", crypto: "LTC", satoshi, oshi, blockTime };
+			case "auroracoin":
+				return { 
+					acronym: cryptoUnit === "satoshi" ? "bits" : "AUR", 
+					label: "Auroracoin", 
+					crypto: "AUR", 
+					satoshi: "satoshi", 
+					oshi: "bits", 
+					blockTime: 1
+				};
+			case "canadaecoin":
+				return { 
+					acronym: cryptoUnit === "satoshi" ? "bits" : "CDN", 
+					label: "Canada eCoin", 
+					crypto: "CDN", 
+					satoshi: "bit", 
+					oshi: "bits", 
+					blockTime: 5
+				};
+				
 			default:
-				acronym = cryptoUnit === "satoshi" ? "sats" : "BTC";
-				return { acronym, label: "Bitcoin", crypto: "BTC", satoshi, oshi, blockTime };
+				acronym = cryptoUnit === "satoshi" ? "bits" : "AUR";
+				return { acronym, label: "Auroracoin", crypto: "AUR", satoshi, oshi, blockTime };
 		}
 	} catch (e) {
 		console.log(e);
