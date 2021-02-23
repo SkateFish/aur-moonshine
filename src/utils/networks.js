@@ -90,13 +90,13 @@ const supportsRbf = {
 	canadaecoin: false
 };
 
-const zeroValueItems = 
-	auroracoin: 0,
-	canadaecoin: 0,
+const zeroValueItems = {
 	bitcoin: 0,
 	bitcoinTestnet: 0,
 	litecoin: 0,
 	litecoinTestnet: 0,
+	auroracoin: 0,
+	canadaecoin: 0,
 	timestamp: null
 };
 
@@ -111,6 +111,8 @@ const arrayTypeItems = {
 };
 
 const objectTypeItems = {
+	auroracoin: {},
+	canadaecoin: {},
 	bitcoin: {},
 	bitcoinTestnet: {},
 	litecoin: {},
@@ -144,13 +146,14 @@ const defaultWalletShape = {
 	},
 	coinTypePath: {
 		auroracoin: "85",
-		canadaecoin: "34"
+		canadaecoin: "34",
 		bitcoin: "0",
 		bitcoinTestnet: "1",
 		litecoin: "2",
 		litecoinTestnet: "1"
 	},
-	addressType: { //Accepts bech32, segwit, legacy
+	addressType: { 
+	//Accepts bech32, segwit, legacy
 		auroracoin: "bech32",
 		canadaecoin: "bech32",
 		bitcoin: "bech32",
