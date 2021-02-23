@@ -8,8 +8,11 @@ const updates = [
 	"Upgraded to the latest version of React Native.",
 	"Upgraded several dependencies.",
 	"Fixed a bug that would prevent the transaction list from updating it's exchange rate value when toggling fiat currencies in the Settings menu.",
-	`Fixed a bug that would prevent the qrcode from updating on the "Receive Transaction" view after specifying an amount.`,
-	`The input amount text field will now display the correct fiat unit/symbol in the "Send Transaction" view.`
+	"Fixed a bug that would prevent the qrcode from updating on the "Receive Transaction" view after specifying an amount.",
+	"The input amount text field will now display the correct fiat unit/symbol in the "Send Transaction" view."
+	"Cloned github://coreyphillips/moonshine",
+	"Added support and colour themes for Auroracoin.",
+	
 ];
 
 const _Welcome = ({ onClose = () => null, children = <View /> } = {}) => {
@@ -27,20 +30,32 @@ const _Welcome = ({ onClose = () => null, children = <View /> } = {}) => {
 				<Text style={[styles.subHeader, { textAlign: "center" }]}>Updates in this build include:</Text>
 				{updates.map((update, i) => <Text key={update} style={styles.text}><Text style={styles.semiBoldText}>{i+1}. </Text>{update}</Text>)}
 
-				<Text style={styles.subHeader}>Questions?</Text>
+				<Text style={styles.subHeader}>Financial Freedom</Text>
 
-				<Text style={styles.text}>Never hesitate to reach out:</Text>
+				<Text style={styles.text}>Iceland''s Cryptocurrency</Text>
 				<Text
-					onPress={() => Linking.openURL("mailto:support@moonshinewallet.com?subject=Requesting Some Help").catch((e) => console.log(e))}
+					//onPress={() => Linking.openURL("mailto:auroracoin101@gmail.com?subject=Requesting Some Help").catch((e) => console.log(e))}
+					onPress={() => Linking.openURL("https://twitter.com/auroracoin101").catch((e) => console.log(e))}
 					style={[styles.text, { marginTop: 5 }]}
 				>
-					<Text style={styles.semiBoldText}>Email: </Text>support@moonshinewallet.com
+					//<Text style={styles.semiBoldText}>Email: </Text>auroracoin101@gmail.com
+					<Text style={styles.semiBoldText}>Twitter: </Text>@auroracoin101
 				</Text>
 				<Text
-					onPress={() => Linking.openURL("https://twitter.com/moonshinewallet").catch((e) => console.log(e))}
+					//onPress={() => Linking.openURL("https://twitter.com/auroracoin101").catch((e) => console.log(e))}
+					onPress={() => Linking.openURL("https://discord.gg/Fhm4758").catch((e) => console.log(e))}
 					style={[styles.text, { marginTop: 5 }]}
 				>
-					<Text style={styles.semiBoldText}>Twitter: </Text>@moonshinewallet
+					//<Text style={styles.semiBoldText}>Twitter: </Text>@Fhm4758
+				<Text style={styles.semiBoldText}>Discord:</Text>discord.gg/Fhm4758
+					
+				<Text
+					onPress={() => Linking.openURL("mailto:support@auroracoin101.is?subject=Requesting some help RE: the moonshine wallet.").catch((e) => console.log(e))}
+					style={[styles.text, { marginTop: 5 }]}
+				>
+					<Text style={styles.semiBoldText}>Email: </Text>support@auroracoin101.is
+				</Text>
+				
 				</Text>
 			</View>
 			<XButton style={{marginVertical: 30}} onPress={onClose} />
